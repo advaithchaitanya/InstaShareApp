@@ -1,0 +1,21 @@
+<div class="bg-[white] min-h-screen">
+  <ngx-slick-carousel class="lg:w-[45%] md:w-[55%] w-[85%] py-12 m-auto" [config]="slideConfig">
+    <div class="h-[70px] w-[70px] aspect-square m-auto border-t-2 border-t-blue-500 rounded-full animate-spin"
+      *ngIf="loadingStories"></div>
+    <div class="text-center " [routerLink]="['/main/user-profile',img.userId]" ngxSlickItem *ngFor="let img of stories">
+      <img class="w-[70px] h-[70px] m-auto rounded-full" [src]="img.stories[0].imageUrl" />
+      <div class="text-center items-center w-full justify-center flex lg:text-[14px]"><span>{{img.username }}</span>
+        <img *ngIf="img.stories[0].varified" src="/varifiedLogo.png" class="w-4 h-4" alt="Verified" title="Verified"/>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+  <div class="">
+    <div class="min-h-[50vh] md:w-[60%] m-auto flex " *ngIf="loadingPosts">
+      <div class="h-[70px] w-[70px] aspect-square m-auto border-t-2 border-t-blue-500 rounded-full animate-spin"></div>
+    </div>
+    <div class="lg:max-w-[40%] md:max-w-[60%] m-auto  bg-[#fafafa] border-0 py-5 my-2" *ngFor="let i of posts">
+      <app-posts data-aos="zoom-in" data-aos-duration="300"  [i]="i"></app-posts>
+    </div>
+
+  </div>
+</div>

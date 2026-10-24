@@ -1,0 +1,31 @@
+<div class="h-screen flex">
+    <div class="m-auto w-[80vw] flex border-black">
+        <div class="banner hidden md:flex w-[60%] p-3">
+            <img src="AuthBanner.png" alt=""  class="m-auto w-[80%] ">
+        </div>
+        <div *ngIf="islogin" class="form flex py-2 rounded-2xl justify-center px-4 flex-col gap-2 items-center md:w-[30%] aspect-3/4 w-[80vw] m-auto">
+            <img class="w-[78px] h-[40px]" src="logo.png" alt="logo-InstaShare">
+            <p class="text-center text-2xl">Insta Share</p>
+            <label for="" class="w-full mt-5">USERNAME</label>
+            <input [(ngModel)]="username" class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="text" name="" placeholder="username" id="">
+            <label for="" class="w-full mt-5">PASSWORD</label>
+            <input [(ngModel)]="password"  class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="password" name="" placeholder="password" id="">
+            <button (click)="login()" class="bg-blue-500 hover:bg-blue-600 transition-colors duration-200  p-2 rounded mt-4 text-white w-full">Login</button>
+            <div class="">New to InstaShare?<span class="text-blue-500 font-extrabold" (click)="islogin=!islogin">{{!islogin?"Login":"Register"}}</span></div>
+        </div>
+        <div *ngIf="!islogin" class="form flex py-2 rounded-2xl justify-center px-4 flex-col items-center md:w-[30%] aspect-3/4 w-[80vw] m-auto">
+            <img class="w-[78px] h-[40px]" src="logo.png" alt="logo-InstaShare">
+            <p class="text-center text-2xl">Insta Share</p>
+            <label for="" class="w-full mt-5">USERNAME</label>
+            <input [(ngModel)]="username" class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="text" name="" placeholder="username" id="">
+            <label for="" class="w-full mt-5">FULLNAME</label>
+            <input [(ngModel)]="fullname" class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="text" name="" placeholder="fullname" id="">
+            <label for="" class="w-full mt-5">EMAIL</label>
+            <input [(ngModel)]="email" class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="email" name="" placeholder="email" id="">
+            <label for="" class="w-full mt-5">PASSWORD</label>
+            <input [(ngModel)]="password" class="w-full px-3 outline-0  bg-[#EEEEEE] rounded py-2" type="password" name="" placeholder="password" id="">
+            <button (click)="register()" class="bg-blue-500 hover:bg-blue-600 transition-colors duration-200  p-2 rounded mt-4 text-white w-full">{{islogin?"Login":"Register"}}</button>
+            <div class="">Already Have account?<span class="text-blue-500 font-extrabold" (click)="islogin=true">Login</span></div>
+        </div>
+    </div>
+</div>

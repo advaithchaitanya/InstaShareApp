@@ -1,0 +1,6 @@
+*{
+    box-sizing: border-box;
+}
+.aaa{
+  object-fit:cover;
+}

@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+.slick-prev:before, 
+.slick-next:before {
+  color: black !important;   /* change to white if dark background */
+  font-size: 30px !important;
+}

@@ -1,0 +1,223 @@
+<div class="">
+
+    <div class="hidden md:block">
+        <div class="gap-8 flex my-5 items-center">
+            <div class="h-[180px] w-[180px] border-2 overflow-hidden aspect-square rounded-full">
+                <img class="w-full h-full object-cover object-center"
+                    [src]="profileData.profile.profileImageUrl?profileData.profile.profileImageUrl:'https://imgs.search.brave.com/0w706iazLuiZA7_266Xh7P1rBBHA32banx87yLoT5ZI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY2L2Zm/L2NiLzY2ZmZjYjU2/NDgyYzY0YmRmNmI2/MDEwNjg3OTM4ODM1/LmpwZw'"
+                    alt="profile image" />
+            </div>
+            <div class="w-[80%] gap-5 flex flex-col justify-center">
+                <p class="text-3xl">{{profileData.fullName}}</p>
+                <div class="flex gap-14">
+                    <p> <span class="font-bold">{{profileData.profile.posts.length}}</span> posts</p>
+                    <p (click)="service.showFollowerPannel()"> <span
+                            class="font-bold">{{profileData.profile.followersCount}}</span> followers</p>
+                    <p (click)="service.showFollowingPannel()"> <span
+                            class="font-bold">{{profileData.profile.followingCount}}</span> following</p>
+                </div>
+                <p class="font-bold">{{profileData.profile.username}}</p>
+                <p>{{profileData.profile.userBio}}</p>
+                <button (click)="toggleFollow()" [ngClass]="following?'bg-red-400':'bg-blue-500'" *ngIf="!isMe"
+                    class="text-white max-w-[30%]">{{following?'Unollow':'Follow'}}</button>
+            </div>
+
+        </div>
+        <div class="flex justify-end gap-5">
+            <div *ngIf="isMe" (click)="service.editShowProfile()" class="text-end"><button
+                    class="bg-gray-500 rounded-2xl p-2">Edit Profile</button></div>
+            <div class="flex justify-end">
+                <button *ngIf="isMe" class="flex items-center self-end"> Add Post <div (click)="service.editShow()"
+                        class="border-2 flex justify-center items-center w-[32px] rounded-full aspect-square">
+                        +
+                    </div></button>
+            </div>
+        </div>
+        <div class="flex m-5 gap-8">
+            <div class="w-[60px] overflow-hidden aspect-square rounded-full p-[5px]  border-2"
+                *ngFor="let i of profileData.profile.stories">
+                <img [src]="i.imageUrl" class="w-full aspect-square rounded-full" alt="">
+            </div>
+            <div (click)="service.editShowStory()" *ngIf="isMe"
+                class="border-2 flex justify-center items-center w-[60px] rounded-full aspect-square">
+                +
+            </div>
+        </div>
+
+    </div>
+    <div class="md:hidden block p-4">
+        <p>{{profileData.fullName}}</p>
+        <div class="flex">
+            <div class="w-[96px] aspect-square border-2 rounded-full overflow-hidden">
+                <img class="w-full object-cover object-center"
+                    [src]="profileData.profile.profileImageUrl?profileData.profile.profileImageUrl:'https://imgs.search.brave.com/0w706iazLuiZA7_266Xh7P1rBBHA32banx87yLoT5ZI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY2L2Zm/L2NiLzY2ZmZjYjU2/NDgyYzY0YmRmNmI2/MDEwNjg3OTM4ODM1/LmpwZw'"
+                    alt="">
+            </div>
+            <div class="md:w-[60%] w-[80%]  flex justify-around items-center">
+                <div class="text-center">
+                    <p class="font-bold text-[16px]">{{profileData.profile.posts.length}}</p>
+                    <p class="text-[12px]">posts</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-bold text-[16px]">{{profileData.profile.followersCount}}</p>
+                    <p class="text-[12px]">followers</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-bold text-[16px]">{{profileData.profile.followingCount}}</p>
+                    <p class="text-[12px]">following</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <div *ngIf="isMe" (click)="service.editShowProfile()" class="text-end"><button
+                    class="bg-gray-500 rounded-2xl p-2">Edit Profile</button></div>
+            <div class="flex justify-end">
+                <button *ngIf="isMe" class="flex items-center self-end"> Add Post <div (click)="service.editShow()"
+                        class="border-2 flex justify-center items-center w-[32px] rounded-full aspect-square">
+                        +
+                    </div></button>
+            </div>
+        </div>
+        <p>{{profileData.username}}</p>
+        <p>{{profileData.profile.userBio}}</p>
+        <div class="flex mt-5 gap-8">
+            <div class="w-[60px] overflow-hidden aspect-square rounded-full p-[5px]  border-2"
+                *ngFor="let i of profileData.profile.stories">
+                <img [src]="i.imageUrl" class="w-full rounded-full" alt="">
+            </div>
+            <div (click)="service.editShowStory()" *ngIf="isMe"
+                class="border-2 flex justify-center items-center w-[60px] rounded-full aspect-square">
+                +
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="flex items-center gap-2 my-5">
+    <i class="fa-solid fa-table-cells "></i>
+    <div class="flex gap-1.5 w-full justify-between items-center">
+        <button class="px-4 py-2 font-semibold"
+            [ngClass]="activeTab==='posts' ? 'border-b-2 border-black' : 'text-gray-500'"
+            (click)="setActiveTab('posts')">
+            Posts
+        </button>
+        <button *ngIf="isMe" class="px-4 cursor-pointer py-2 font-semibold"
+            [ngClass]="activeTab==='liked' ? 'border-b-2 border-black' : 'text-gray-500'"
+            (click)="setActiveTab('liked')">
+            Liked
+        </button>
+        <button *ngIf="isMe" class="px-4 cursor-pointer py-2 font-semibold"
+            [ngClass]="activeTab==='saved' ? 'border-b-2 border-black' : 'text-gray-500'"
+            (click)="setActiveTab('saved')">
+            Saved
+        </button>
+    </div>
+</div>
+
+<div *ngIf="isMe" class="grid grid-cols-3 gap-1 md:gap-4 mt-4">
+    <!-- Show Posts -->
+    <ng-container *ngIf="activeTab==='posts'">
+        <div  *ngFor="let post of profileData.profile.posts">
+            <img  [routerLink]="['/main/post',post.id]" [src]="post.imageUrl" alt="post" class="w-full h-full object-cover" />
+            <!-- <p>{{post |json}}</p> -->
+        </div>
+    </ng-container>
+
+    <!-- Show Liked -->
+    <ng-container *ngIf="activeTab==='liked'">
+        <div  *ngFor="let liked of likedPosts">
+            
+            <img  [routerLink]="['/main/post',liked.postId]" [src]="liked.imageUrl" alt="liked" class="w-full h-full object-cover" />
+        </div>
+    </ng-container>
+
+    <!-- Show Saved -->
+    <ng-container *ngIf="activeTab==='saved'">
+        <div  *ngFor="let saved of savedPosts">
+            <img  [routerLink]="['/main/post',saved.postId]" [src]="saved.imageUrl" alt="saved" class="w-full h-full object-cover" />
+            <!-- <p>{{saved |json}}</p> -->
+        </div>
+    </ng-container>
+</div>
+<div *ngIf="!isMe" class="grid grid-cols-3 gap-1 md:gap-4 mt-4">
+
+    <div *ngFor="let post of profileData.profile.posts">
+        <img [routerLink]="['/main/post',post.id]" [src]="post.imageUrl" alt="post" class="w-full h-full object-cover" />
+    </div>
+
+
+
+</div>
+
+
+<div [ngClass]="service.isFollowerView ?'top-0':'top-[100%]'"
+    class=" left-0 post fixed z-1000 h-screen bg-[#fbff004f] w-screen backdrop-blur-[15px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2 main-box bg-[#ffffff41] rounded-2xl w-[50%] relative h-[45vh] ">
+            <button (click)="service.closeFollowerPannel()"
+                class="absolute z-1000 bg-red-500 top-[-20%]  aspect-square w-[30px] h-[30px] rounded-full  right-0">X</button>
+            <p class="absolute left-0 p-1 top-[-20%] text-2xl font-bold z-1000">Followers</p>
+            <div class="flex flex-col gap-4 p-5 h-full overflow-y-auto">
+                <div *ngFor="let follower of profileData.profile.followers" class="">
+                    <div class="bg-[#fffffffd] py-5 rounded-3xl px-3  flex gap-6">
+                        <div class="h-[32px] w-[32px] rounded-full overflow-hidden"><img
+                                [src]="follower.profileImageUrl?follower.profileImageUrl:'https://imgs.search.brave.com/0w706iazLuiZA7_266Xh7P1rBBHA32banx87yLoT5ZI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY2L2Zm/L2NiLzY2ZmZjYjU2/NDgyYzY0YmRmNmI2/MDEwNjg3OTM4ODM1/LmpwZw'"
+                                alt=""></div>
+                        <p>{{follower.username}}</p>
+                    </div>
+                </div>
+                <div *ngIf="profileData.profile.follower?.length===0"
+                    class="h-full w-full flex justify-center items-center">No Content here</div>
+                <!-- <br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div [ngClass]="service.isFollowingView ?'top-0':'top-[100%]'"
+    class=" left-0 post fixed z-1000 h-screen bg-[#00ccff4f] w-screen backdrop-blur-[15px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2 main-box bg-[#ffffff41] rounded-2xl w-[50%] relative h-[45vh] ">
+            <button (click)="service.closeFollowingPannel()"
+                class="absolute z-1000 bg-red-500 top-[-20%]  aspect-square w-[30px] h-[30px] rounded-full  right-0">X</button>
+            <p class="absolute left-0 p-1 top-[-20%] text-2xl font-bold z-1000">Following</p>
+            <div class="flex flex-col gap-4 p-5 h-full overflow-y-auto">
+                <div *ngFor="let follower of profileData.profile.following" class="">
+                    <div class="bg-[#fffffffd] rounded-3xl px-3 py-5 flex gap-6">
+                        <div class="h-[32px] w-[32px] rounded-full overflow-hidden"><img
+                                [src]="follower.profileImageUrl?follower.profileImageUrl:'https://imgs.search.brave.com/0w706iazLuiZA7_266Xh7P1rBBHA32banx87yLoT5ZI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzY2L2Zm/L2NiLzY2ZmZjYjU2/NDgyYzY0YmRmNmI2/MDEwNjg3OTM4ODM1/LmpwZw'"
+                                alt=""></div>
+                        <p>{{follower.username}}</p>
+                    </div>
+                </div>
+                <div *ngIf="profileData.profile.following?.length<1"
+                    class="h-full w-full flex justify-center items-center">No Content here</div>
+                <!-- <br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div [ngClass]="profileData.banned && !isMe?'top-[10%]':'top-[100%]'"
+    class=" left-0 post fixed z-1000 h-screen bg-[#ff37004f] w-screen backdrop-blur-[15px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2 main-box bg-[#ffffff41] rounded-2xl w-[50%] relative h-[45vh] ">
+            <div class="flex flex-col items-center justify-center h-full w-full p-6">
+            
+
+                <!-- Case: Viewing another banned user -->
+                <div *ngIf="!isMe" class="text-center flex flex-col gap-4">
+                    <p class="text-2xl font-bold text-red-600">🚫 User Banned</p>
+                    <p class="text-gray-700">This account has been restricted. You cannot view their profile.</p>
+                    <button (click)="backToHome()"
+                        class="bg-blue-500 text-white px-6 py-2 rounded-xl shadow hover:bg-blue-600 transition">
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="bg-[white] min-h-screen">
+      <div class="">
+        <div class="min-h-[50vh] md:w-[60%] m-auto flex " *ngIf="loadingPosts">
+          <div class="h-[70px] w-[70px] aspect-square m-auto border-t-2 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+        <div class="lg:max-w-[40%] md:max-w-[60%] m-auto  bg-[#fafafa] border-0 py-5 my-2">
+          <app-posts [i]="post"></app-posts>
+        </div>
+    
+      </div>
+
+
+
+  </div>

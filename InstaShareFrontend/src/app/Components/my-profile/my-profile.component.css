@@ -1,0 +1,9 @@
+.main-box{
+    box-shadow: 10px 10px 0px black;
+}
+input::placeholder{
+    color: rgb(83, 81, 81);
+}
+.post{
+    transition: all 0.5s ease-in-out;
+}

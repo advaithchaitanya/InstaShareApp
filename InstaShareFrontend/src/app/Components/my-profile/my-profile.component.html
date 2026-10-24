@@ -1,0 +1,155 @@
+<div class="md:w-[60%]  h-screen m-auto relative">
+    <div *ngIf="loading" class="h-[70px]  m-auto aspect-square border-teal-400 border-t-2 rounded-full animate-spin">
+    </div>
+    <app-profile-view [isMe]="true" [profileData]="profileData"></app-profile-view>
+</div>
+<div [ngClass]="service.isEdit ?'top-0':'top-[100%]'"
+    class=" left-0 post fixed z-1000 h-screen bg-[#04e7e745] w-screen backdrop-blur-[5px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2 main-box bg-[#ffffff41] rounded-2xl w-[50%] relative min-h-[30vh]">
+            <button (click)="service.closeEdit()"
+                class="absolute bg-red-500 top-[-20%]  aspect-square w-[30px] h-[30px] rounded-full  right-0">X</button>
+            <p class="absolute left-0 p-1 top-[-20%] text-2xl font-bold">Add Post</p>
+            <div class="flex flex-col p-5">
+                <label for="">ImageUrl</label>
+
+                <!-- <input [(ngModel)]="postImageUrl" type="text" class="py-4 rounded-xl mb-5 px-2 bg-[#03034c24]" placeholder="enter image url" name="" id=""> -->
+
+                        <div class="py-2 px-4 sm:flex gap-5">
+                            <p class="rounded-lg sm:p-2" (click)="postUrlTab=true"
+                                [ngClass]="postUrlTab?'  bg-[#5834348c] text-white font-bold':''">Give url</p>
+                            <p class="rounded-lg sm:p-2" (click)="postUrlTab=false"
+                                [ngClass]="!postUrlTab?'  bg-[#5834348c] text-white  font-bold':''">Upload image</p>
+
+                        </div>
+                        <div class="flex">
+                            <input *ngIf="postUrlTab" [(ngModel)]="postImageUrl" type="text"
+                                class="py-4 w-[80%] m-auto rounded-xl mb-5 px-2 bg-[#03034c24]"
+                                placeholder="no profile pic" name="" id="">
+                            <div *ngIf="!postUrlTab" class="preview  flex justify-center items-center w-[80%] m-auto">
+                                <div class="flex gap-5 justify-center">
+                                    <img *ngIf="priviewUrlPost!=''" [src]="priviewUrlPost"
+                                        class="h-[100px] sm:h-[200px]  aspect-square m-auto rounded-full" alt="">
+
+                                    <input (change)="fileUploadEventPost($event)" type="file"
+                                        class=" m-auto w-[90%] py-4  rounded-xl  px-2 bg-[#03034c24]"
+                                        placeholder="no profile pic" name="" id="">
+                                </div>
+                            </div>
+
+                        </div>
+        <label for="">Caption</label>
+        <input [(ngModel)]="caption" type="text" class="py-4 mb-5 rounded-xl px-2 bg-[#03034c24]"
+            placeholder="enter caption" name="" id="">
+        <button (click)="createPost()" class="bg-blue-400 py-4">Post</button>
+    </div>
+</div>
+</div>
+</div>
+<div [ngClass]="service.isStoryEdit ?'top-0':'top-[100%]'"
+    class=" left-0 post fixed z-1000 h-screen bg-[#e7750445] w-screen backdrop-blur-[5px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2 main-box bg-[#ffffff41] rounded-2xl w-[50%] relative min-h-[25vh]">
+            <button (click)="service.closeEditStory()"
+                class="absolute bg-red-500 top-[-20%]  aspect-square w-[30px] h-[30px] rounded-full  right-0">X</button>
+            <p class="absolute left-0 p-1 top-[-20%] text-2xl font-bold">Add Story</p>
+            <div class="flex flex-col p-5">
+                <label for="">ImageUrl</label>
+                <!-- ------- -->
+                <div class="py-2 px-4 sm:flex gap-5">
+                    <p class="rounded-lg sm:p-2" (click)="storyUrlTab=true"
+                        [ngClass]="storyUrlTab?'  bg-[#5834348c] text-white font-bold':''">Give url</p>
+                    <p class="rounded-lg sm:p-2" (click)="storyUrlTab=false"
+                        [ngClass]="!storyUrlTab?'  bg-[#5834348c] text-white  font-bold':''">Upload image</p>
+
+                </div>
+                <div class="flex">
+                    <input *ngIf="storyUrlTab" [(ngModel)]="imageUrlStory" type="text"
+                        class="py-4 w-[80%] m-auto rounded-xl mb-5 px-2 bg-[#03034c24]" placeholder="no profile pic"
+                        name="" id="">
+                    <div *ngIf="!storyUrlTab" class="preview  flex justify-center items-center w-[80%] m-auto">
+                        <div class="flex gap-5 justify-center">
+                            <img *ngIf="priviewUrlStory!=''" [src]="priviewUrlStory"
+                                class="h-[100px] sm:h-[200px]  aspect-square m-auto rounded-full" alt="">
+
+                            <input (change)="fileUploadEventStory($event)" type="file"
+                                class=" m-auto w-[90%] py-4  rounded-xl  px-2 bg-[#03034c24]"
+                                placeholder="no profile pic" name="" id="">
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <input [(ngModel)]="imageUrlStory" type="text" class="py-4 rounded-xl mb-5 px-2 bg-[#03034c24]" placeholder="enter image url" name="" id=""> -->
+                <button (click)="createStory()" class="bg-blue-400 py-4">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div [ngClass]="service.isEditProfile ?'top-0':'top-[100%]'"
+    class=" left-0  post fixed z-1000 h-screen bg-[#00ff884f] w-screen backdrop-blur-[15px]">
+    <div class="flex flex-col justify-center items-center h-full w-full">
+
+        <div class="border-2  main-box bg-[#ffffff41] rounded-2xl w-[50%] relative min-h-[25vh]">
+            <button [ngClass]="(priviewUrlProfile!='')?'top-[-5%]':'top-[-10%]'" (click)="service.closeEditProfile()"
+                class="absolute bg-red-500 top-[-10%]  aspect-square w-[30px] h-[30px] rounded-full  right-0">X</button>
+            <p [ngClass]="(priviewUrlProfile!='')?'top-[-5%]':'top-[-10%]'"
+                class="absolute left-0 p-1 top-[-10%] text-2xl font-bold">Edit Profile</p>
+            <div class="flex flex-col overflow-y-auto p-5">
+                <label for="">Bio</label>
+                <input [(ngModel)]="userBio" type="text" class="py-4 rounded-xl mb-5 px-2 bg-[#03034c24]" name="" id="">
+                <label for="">Profile pic</label>
+                <div class="py-2 px-4 sm:flex gap-5">
+                    <p class="rounded-lg sm:p-2" (click)="profileUrlUpdateTab=true"
+                        [ngClass]="profileUrlUpdateTab?'  bg-[#5834348c] text-white font-bold':''">Give url</p>
+                    <p class="rounded-lg sm:p-2" (click)="profileUrlUpdateTab=false"
+                        [ngClass]="!profileUrlUpdateTab?'  bg-[#5834348c] text-white  font-bold':''">Upload image</p>
+
+                </div>
+                <div class="flex">
+                    <input *ngIf="profileUrlUpdateTab" [(ngModel)]="profileImageUrl" type="text"
+                        class="py-4 w-[80%] m-auto rounded-xl mb-5 px-2 bg-[#03034c24]" placeholder="no profile pic"
+                        name="" id="">
+                    <div *ngIf="!profileUrlUpdateTab" class="preview  flex justify-center items-center w-[80%] m-auto">
+                        <div class="flex gap-5 justify-center">
+                            <img *ngIf="priviewUrlProfile!=''" [src]="priviewUrlProfile"
+                                class="h-[100px] sm:h-[200px]  aspect-square m-auto rounded-full" alt="">
+
+                            <input (change)="fileUploadEventProfile($event)" type="file"
+                                class=" m-auto w-[90%] py-4  rounded-xl  px-2 bg-[#03034c24]"
+                                placeholder="no profile pic" name="" id="">
+                        </div>
+                    </div>
+
+                </div>
+                <label for="">Full Name</label>
+                <input [(ngModel)]="fullname" type="text" class="py-4 rounded-xl mb-5 px-2 bg-[#03034c24]" name=""
+                    id="">
+                <button (click)="updateProfile()" class="bg-red-400 py-4">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- 
+<div class="py-2 px-4 sm:flex gap-5">
+                    <p class="rounded-lg sm:p-2" (click)="urlUploadTab=true" [ngClass]="urlUploadTab?'  bg-[#5834348c] text-white font-bold':''">Give url</p>
+                    <p class="rounded-lg sm:p-2" (click)="urlUploadTab=false" [ngClass]="!urlUploadTab?'  bg-[#5834348c] text-white  font-bold':''">Upload image</p>
+                    
+                </div>
+                <div class="flex">
+                    <input *ngIf="urlUploadTab" [(ngModel)]="profileImageUrl" type="text" class="py-4 w-[80%] m-auto rounded-xl mb-5 px-2 bg-[#03034c24]" placeholder="no profile pic"  name="" id="">
+                    <div *ngIf="!urlUploadTab" class="preview  flex justify-center items-center w-[80%] m-auto">
+                        <div class="flex gap-5 justify-center">
+                            <img *ngIf="priviewUrl!=''" [src]="priviewUrl" class="h-[100px] sm:h-[200px]  aspect-square m-auto rounded-full" alt="">
+
+                            <input (change)="fileUploadEvent($event)"  type="file" class=" m-auto w-[90%] py-4  rounded-xl  px-2 bg-[#03034c24]" placeholder="no profile pic"  name="" id="">
+                        </div>
+                    </div>
+                    
+                </div> 
+-->

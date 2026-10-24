@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://apis.ccbp.in",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
